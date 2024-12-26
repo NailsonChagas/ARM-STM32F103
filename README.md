@@ -1,5 +1,4 @@
 # ARM STM32F103  
-
 Este repositório tem como objetivo documentar meu processo de aprendizado nas disciplinas de **Arquitetura e Organização de Computadores** e **Sistemas Microcontrolados**, utilizando o microcontrolador STM32F103 na placa de desenvolvimento *"Blue Pill"*. Como material de estudo, utilizo o livro *"[The STM32F103 Arm Microcontroller and Embedded Systems Using Assembly and C](https://www.amazon.com.br/STM32F103-Arm-Microcontroller-Embedded-Systems/dp/1970054018)"*.  
 
 ## Índice  
@@ -11,6 +10,7 @@ Este repositório tem como objetivo documentar meu processo de aprendizado nas d
 2. [Arquitetura ARM](#arquitetura-arm)
     1. [Pequeno historico](#pequeno-historico)
     2. [Adaptabilidade tem suas desvantagens](#adaptabilidade-tem-suas-desvantagens)
+    3. [Assembly](#assembly)
 
 ## Conhecimentos gerais
 
@@ -42,15 +42,15 @@ Adicionar: ADC, SPI, DAC, I2C, UART, SRAM, Memória Flash
 - **Sistema embarcado**: Um sistema de computação projetado para realizar uma tarefa específica, geralmente incorporado em dispositivos maiores. Utiliza microcontroladores ou microprocessadores e é comum em aplicações como automóveis, eletrodomésticos, sistemas médicos e dispositivos IoT.
 
 ### Microprocessador VS Microcontrolador
-- Microprocessadores: Não possuem RAM, ROM ou I/O's. Devem ser conectados externamente a RAM, ROM e I/O's.
+- **Microprocessadores**: Não possuem RAM, ROM ou I/O's. Devem ser conectados externamente a RAM, ROM e I/O's.
 
-- Microcontroladores: CPU, RAM, ROM e I/O's estão juntos em um mesmo IC.
+- **Microcontroladores**: CPU, RAM, ROM e I/O's estão juntos em um mesmo IC.
 
 ### Tipos de computadores
 Computadores usalmente podem ser divididos em três grupos:
-- PC's: Inclui Desktop's e notebooks. Feito para uso geral (ler artigos, jogar, trabalhar, etc), usam microprocessadores.
-- Servidores: Usados para hospedar sites, armazenar bancos de dados e processar grandes quantidades de dados.
-- Sistemas embarcados: Computadores de uso específico, nos quais o software e o hardware estão integrados para realizar uma tarefa específica. Exemplos incluem câmeras digitais, aspiradores de pó, players de MP3, mouses, teclados e impressoras. Na maioria das vezes, utilizam microcontroladores, mas quando necessário, processadores de uso geral podem ser usados.
+- **PC's**: Inclui Desktop's e notebooks. Feito para uso geral (ler artigos, jogar, trabalhar, etc), usam microprocessadores.
+- **Servidores**: Usados para hospedar sites, armazenar bancos de dados e processar grandes quantidades de dados.
+- **Sistemas embarcados**: Computadores de uso específico, nos quais o software e o hardware estão integrados para realizar uma tarefa específica. Exemplos incluem câmeras digitais, aspiradores de pó, players de MP3, mouses, teclados e impressoras. Na maioria das vezes, utilizam microcontroladores, mas quando necessário, processadores de uso geral podem ser usados.
 
 ### Como escolher um microcontrolador?
 Microcontrolador devem ser escolhidos com base nas caracteristicas do chip (velocidade de clock, consumo de energia, preço e memórias e periféricos integrados) e recursos disponiveis (suporte, IDE, produção ativa, etc)
@@ -63,3 +63,5 @@ ARM surgiu na decada de 1980 dentro da empresa "Acorn Computers" (Reino unido) g
 
 ### Adaptabilidade tem suas desvantagens
 A arquitetura ARM, incluindo registradores, instruções e mapa de memória, é definida e patenteada pela "ARM Holdings". Fabricantes licenciam essa propriedade intelectual (PI) e adicionam seus próprios periféricos. Embora a CPU seja a mesma em chips ARM de diferentes fornecedores, os periféricos (portas I/O, UART, temporizadores, ADC, SPI, DAC, I2C, etc.) e memórias (memória Flash, SRAM) variam. Isso resulta em incompatibilidade ao tentar usar uma mesmo código em diferentes chips ARM, sendo uma das principais desvantagens dessa arquitetura. Um programa para a porta serial de um chip ARM da Texas Instruments, por exemplo, pode não funcionar em um chip ARM da NXP.
+
+### Assembly
