@@ -11,6 +11,10 @@ Este repositório tem como objetivo documentar meu processo de aprendizado nas d
     1. [Pequeno histórico](#pequeno-histórico)  
     2. [Adaptabilidade tem suas desvantagens](#adaptabilidade-tem-suas-desvantagens)  
     3. [Registrador (register)](#registrador-register)  
+        1. [Registrador de Uso Geral (General Purpose Register - GPR)](#registrador-de-uso-geral-general-purpose-register---gpr)
+        2. [Stack Pointer (SP)](#stack-pointer-sp)
+        3. [Link Register (LR)](#link-register-lr)
+        4. [Program Counter (PC)](#program-counter-pc)
 
 ## Conhecimentos gerais
 
@@ -67,19 +71,32 @@ Computadores geralmente podem ser divididos em três grupos:
 - **Sistemas embarcados**: Computadores de uso específico, nos quais o software e o hardware estão integrados para realizar uma tarefa específica. Exemplos incluem câmeras digitais, aspiradores de pó, players de MP3, mouses, teclados e impressoras. Na maioria das vezes, utilizam microcontroladores, mas quando necessário, processadores de uso geral podem ser usados.
 
 ### Como escolher um microcontrolador?
-Microcontroladores devem ser escolhidos com base nas características do chip (velocidade de clock, consumo de energia, preço, memórias e periféricos integrados) e recursos disponíveis (suporte, IDE, produção ativa, etc).
+Microcontroladores devem ser escolhidos com base nas características do chip (velocidade de clock, consumo de energia, preço, 
+memórias e periféricos integrados) e recursos disponíveis (suporte, IDE, produção ativa, etc).
 
 ## Arquitetura ARM
-ARM (Advanced RISC Machine) é uma família de arquiteturas de processadores baseadas no modelo RISC (Reduced Instruction Set Computing). A ARM Holdings, uma empresa britânica, é a responsável pelo desenvolvimento e licenciamento dessas arquiteturas. A arquitetura ARM é caracterizada por: eficiência energética, simplicidade, tamanho compacto e capacidade de personalização.
+ARM (Advanced RISC Machine) é uma família de arquiteturas de processadores baseadas no modelo RISC (Reduced Instruction Set Computing). 
+A ARM Holdings, uma empresa britânica, é a responsável pelo desenvolvimento e licenciamento dessas arquiteturas. A arquitetura ARM 
+é caracterizada por: eficiência energética, simplicidade, tamanho compacto e capacidade de personalização.
 
 ### Pequeno histórico
-A ARM surgiu na década de 1980 dentro da empresa "Acorn Computers" (Reino Unido) graças ao trabalho de Steve Furber e Sophie Wilson, que trabalharam para definir a arquitetura ARM e suas instruções. Em 1985, o primeiro microprocessador ARM foi produzido, mas devido à competição com a arquitetura x86, a empresa "Acorn Computers" foi forçada a focar no mercado de microcontroladores para sistemas embarcados. Graças ao seu sucesso no mercado de microcontroladores e ao crescente interesse no uso do chip, a empresa "ARM" foi fundada para licenciar o uso da arquitetura para empresas de fabricação e desenvolvimento de semicondutores. 
+A ARM surgiu na década de 1980 dentro da empresa "Acorn Computers" (Reino Unido) graças ao trabalho de Steve Furber e Sophie Wilson, 
+que trabalharam para definir a arquitetura ARM e suas instruções. Em 1985, o primeiro microprocessador ARM foi produzido, mas devido 
+à competição com a arquitetura x86, a empresa "Acorn Computers" foi forçada a focar no mercado de microcontroladores para sistemas embarcados.
+Graças ao seu sucesso no mercado de microcontroladores e ao crescente interesse no uso do chip, a empresa "ARM" foi fundada para licenciar 
+o uso da arquitetura para empresas de fabricação e desenvolvimento de semicondutores. 
 
 ### Adaptabilidade tem suas desvantagens
-A arquitetura ARM, incluindo registradores, instruções e mapa de memória, é definida e patenteada pela "ARM Holdings". Fabricantes licenciam essa propriedade intelectual (PI) e adicionam seus próprios periféricos. Embora a CPU seja a mesma em chips ARM de diferentes fornecedores, os periféricos (portas I/O, UART, temporizadores, ADC, SPI, DAC, I2C, etc.) e memórias (memória Flash, SRAM) variam. Isso resulta em incompatibilidade ao tentar usar o mesmo código em diferentes chips ARM, sendo uma das principais desvantagens dessa arquitetura. Um programa para a porta serial de um chip ARM da Texas Instruments, por exemplo, pode não funcionar em um chip ARM da NXP.
+A arquitetura ARM, incluindo registradores, instruções e mapa de memória, é definida e patenteada pela "ARM Holdings". 
+Fabricantes licenciam essa propriedade intelectual (PI) e adicionam seus próprios periféricos. Embora a CPU seja a mesma 
+em chips ARM de diferentes fornecedores, os periféricos (portas I/O, UART, temporizadores, ADC, SPI, DAC, I2C, etc.) e 
+memórias (memória Flash, SRAM) variam. Isso resulta em incompatibilidade ao tentar usar o mesmo código em diferentes chips ARM, 
+sendo uma das principais desvantagens dessa arquitetura. Um programa para a porta serial de um chip ARM da Texas Instruments, por exemplo, 
+pode não funcionar em um chip ARM da NXP.
 
 ### Registrador (register)
-Registradores ARM possuem 32 bits, ou seja, se um dado possuir mais de 32 bits (1 Word), ele deve ser quebrado em pedaços de 32 bits. Mesmo com o padrão da arquitetura ARM sendo 32 bits, algumas de suas instruções suportam operações usando dados de um único bit, 8 bits e 16 bits.
+Registradores ARM possuem 32 bits, ou seja, se um dado possuir mais de 32 bits (1 Word), ele deve ser quebrado em pedaços de 32 bits. 
+Mesmo com o padrão da arquitetura ARM sendo 32 bits, algumas de suas instruções suportam operações usando dados de um único bit, 8 bits e 16 bits.
 
 - **1 Bit = 0 ou 1**
 - **1 Byte = 8 Bits**
@@ -87,7 +104,23 @@ Registradores ARM possuem 32 bits, ou seja, se um dado possuir mais de 32 bits (
 - **1 Word = 2 Half-Words = 4 Bytes = 32 Bits**
 
 A arquitetura ARM possui 16 registradores:
-- **R0 ~ R12**: uso geral
+- **R0 ~ R12**: registrador de uso Geral
 - **R13**: ponteiro de Pilha (Stack Pointer - SP)
 - **R14**: registro de Link (Link Register - LR)
 - **R15**: contador de Programa (Program Counter - PC)
+
+#### Registrador de Uso Geral (General Purpose Register - GPR)
+Os registradores de uso geral são pequenos espaços de memória dentro de uma CPU que podem ser usados para armazenar dados temporários, 
+como valores intermediários em cálculos ou dados transferidos entre a memória e a CPU. Eles não possuem uma função específica e podem 
+ser utilizados para qualquer propósito definido pelo programador ou compilador. Exemplos em arquiteturas ARM incluem os registradores R0 a R12.
+
+#### Stack Pointer (SP)
+O Stack Pointer é um registrador especializado que aponta para o topo da pilha de memória. 
+A pilha é uma estrutura de dados usada para armazenar informações temporárias, como valores de variáveis locais, 
+endereços de retorno e parâmetros de função.
+
+#### Link Register (LR)
+O Link Register é um registrador que armazena o endereço de retorno de uma sub-rotina ou função chamada.
+
+#### Program Counter (PC)
+O Program Counter é um registrador que contém o endereço da próxima instrução a ser executada pela CPU.
