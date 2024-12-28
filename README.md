@@ -15,6 +15,9 @@ Este repositório tem como objetivo documentar meu processo de aprendizado nas d
         2. [Stack Pointer (SP)](#stack-pointer-sp)
         3. [Link Register (LR)](#link-register-lr)
         4. [Program Counter (PC)](#program-counter-pc)
+        5. [Current Program Status Register (CPSR)](#current-program-status-register-cpsr)
+    4. [Mapa de memória](#mapa-de-memória)
+    5. [Assembly](#assembly)
 
 ## Conhecimentos gerais
 
@@ -103,11 +106,12 @@ Mesmo com o padrão da arquitetura ARM sendo 32 bits, algumas de suas instruçõ
 - **1 Half-Word = 2 Bytes = 16 Bits**
 - **1 Word = 2 Half-Words = 4 Bytes = 32 Bits**
 
-A arquitetura ARM possui 16 registradores:
+A arquitetura ARM possui 17 registradores:
 - **R0 ~ R12**: registrador de uso Geral
 - **R13**: ponteiro de Pilha (Stack Pointer - SP)
 - **R14**: registro de Link (Link Register - LR)
 - **R15**: contador de Programa (Program Counter - PC)
+- **CPSR**: current program status register
 
 #### Registrador de Uso Geral (General Purpose Register - GPR)
 Os registradores de uso geral são pequenos espaços de memória dentro de uma CPU que podem ser usados para armazenar dados temporários, 
@@ -124,3 +128,65 @@ O Link Register é um registrador que armazena o endereço de retorno de uma sub
 
 #### Program Counter (PC)
 O Program Counter é um registrador que contém o endereço da próxima instrução a ser executada pela CPU.
+
+#### Current Program Status Register (CPSR)
+Registrador usado para armazenar informações sobre o estado atual do processador.
+Suas funções principais incluem:
+- **N (Negative)**: Indica se o resultado de uma operação foi negativo.
+- **Z (Zero)**: Indica se o resultado de uma operação foi zero.
+- **C (Carry)**: Reflete um carry out em operações de soma/subtração ou indica operações de rotação.
+- **V (Overflow)**: Indica um overflow em operações aritméticas.
+- **T**: Indica se o processador esta em estado Thumb (16 bits)
+- **I**: Habilita interrupções
+- **F**: Desativa interrupções
+
+### Mapa de memória 
+Na arquitetura ARM, existe apenas um espaço de memória que pode ir até 4 Gigabytes. Sendo esse espaço de memória interno dividido em 3 seções:
+- I/O registers: Área dedicada para os registradores dos periféricos. O seu tamanho é definido pelo numero de pinos e funções periféricas suportadas pelo chip.
+- SRAM: Usado para variáveis de dados e pilha (stack) e é acessado pelas instruções do microcontrolador
+- Flash ROM: Bloco de memória reservado para armazenar o programa. Também pode ser usado para armazenar dados estáticos (ex: look-up table e strings)
+
+### Assembly
+
+#### Instrução MOV
+A instrução `MOV` copia dados de um registrador ou valor imediato para outro registrador.
+
+**Sintaxe:**
+```assembly
+MOV A, B
+```
+- `A`: Registrador que irá receber a cópia do valor.
+- `B`: Registrador ou valor imediato contendo o valor a ser copiado.
+
+**Regras para valores imediatos:**
+- Devem ser precedidos pelo símbolo `#`.
+- Podem ter no máximo 8 bits. Caso tenham mais, os 8 bits serão carregados no registrador de 32 bits, e os outros 24 bits serão preenchidos com `0`.
+- Se um valor imediato não puder ser representado por um valor de 8 bits com um número par de bits rotacionados para a direita, o montador o sinalizará como um erro de sintaxe. 
+    - Rotacionar significa deslocar os bits de um número para a direita ou para a esquerda, mas de forma que os bits que "saem" de um lado "entrem" novamente pelo outro lado, como se fosse um movimento circular.
+
+**Exemplos:**
+- `MOV R5, R7`: Copia o conteúdo do registrador `R7` para o registrador `R5`.
+- `MOV R2, #25`: Copia o valor decimal imediato `25` para o registrador `R2`.
+- `MOV R1, #0x87`: Copia o valor hexadecimal imediato `87` para o registrador `R1`.
+
+#### Pseudo-Instrução LDR  
+A instrução `LDR` (Load Register) é usada para carregar um valor de uma localização de memória ou um valor imediato para um registrador.
+
+**Sintaxe:**
+```assembly
+LDR A, [B, offset]    ; Para carregar da memória
+LDR A, =value         ; Para carregar um valor imediato
+```
+- `A`: Registrador que irá receber o valor.
+- `[B, offset]`: Endereço de memória de onde o valor será carregado.
+  - `B`: Registrador contendo o endereço base de memória.
+  - `offset` (opcional): Valor imediato ou registrador que será adicionado ao endereço base para calcular o endereço final.
+- `=value`: Valor imediato que será carregado diretamente no registrador.
+
+**Exemplos:**
+- `LDR R6, [R7]`: Carrega o valor armazenado na memória apontada por `R7` para o registrador `R6`.
+- `LDR R1, [R2, #12]`: Carrega o valor do endereço `R2 + 12` para o registrador `R1`.
+- `LDR R0, [R4, -#8]`: Carrega o valor do endereço `R4 - 8` para o registrador `R0`.
+- `LDR R3, [R8], #4`: Carrega o valor do endereço apontado por `R8` para `R3`, e em seguida incrementa `R8` em 4.
+- `LDR R0, =0x1234`: Carrega o valor imediato `0x1234` no registrador `R0`.
+- `LDR R1, =100`: Carrega o valor decimal imediato `100` no registrador `R1`.
