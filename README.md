@@ -18,6 +18,9 @@ Este repositório tem como objetivo documentar meu processo de aprendizado nas d
         5. [Current Program Status Register (CPSR)](#current-program-status-register-cpsr)
     4. [Mapa de memória](#mapa-de-memória)
     5. [Assembly](#assembly)
+3. [STM32F103C8T6](#stm32f103c8t6)
+    1. [Nomenclatura](#nomenclatura)
+    2. [Especificações](#especificações)
 
 ## Conhecimentos gerais
 
@@ -106,6 +109,8 @@ Mesmo com o padrão da arquitetura ARM sendo 32 bits, algumas de suas instruçõ
 - **1 Half-Word = 2 Bytes = 16 Bits**
 - **1 Word = 2 Half-Words = 4 Bytes = 32 Bits**
 
+Obs: 32 bits pode ser representado por um hex de 8 digitos
+
 A arquitetura ARM possui 17 registradores:
 - **R0 ~ R12**: registrador de uso Geral
 - **R13**: ponteiro de Pilha (Stack Pointer - SP)
@@ -147,46 +152,34 @@ Na arquitetura ARM, existe apenas um espaço de memória que pode ir até 4 Giga
 - Flash ROM: Bloco de memória reservado para armazenar o programa. Também pode ser usado para armazenar dados estáticos (ex: look-up table e strings)
 
 ### Assembly
+Os códigos, acompanhados de comentários explicativos, estão disponíveis na pasta `Assembly`.
 
-#### Instrução MOV
-A instrução `MOV` copia dados de um registrador ou valor imediato para outro registrador.
+Foram desenvolvidos com base nos seguintes recursos:  
+- [Vídeo no YouTube](https://www.youtube.com/watch?v=gfmRrPjnEw4&t=386s)  
+- [Emulador ARM DE1-SoC](https://cpulator.01xz.net/?sys=arm-de1soc)
 
-**Sintaxe:**
-```assembly
-MOV A, B
-```
-- `A`: Registrador que irá receber a cópia do valor.
-- `B`: Registrador ou valor imediato contendo o valor a ser copiado.
 
-**Regras para valores imediatos:**
-- Devem ser precedidos pelo símbolo `#`.
-- Podem ter no máximo 8 bits. Caso tenham mais, os 8 bits serão carregados no registrador de 32 bits, e os outros 24 bits serão preenchidos com `0`.
-- Se um valor imediato não puder ser representado por um valor de 8 bits com um número par de bits rotacionados para a direita, o montador o sinalizará como um erro de sintaxe. 
-    - Rotacionar significa deslocar os bits de um número para a direita ou para a esquerda, mas de forma que os bits que "saem" de um lado "entrem" novamente pelo outro lado, como se fosse um movimento circular.
+## STM32F103C8T6
+O `STM32F103C8T6` é um microcontrolador da série STM32 da STMicroelectronics, amplamente utilizado em sistemas embarcados devido ao seu excelente custo-benefício e versatilidade. Ele pertence à família STM32F1, que é baseada na arquitetura `ARM Cortex-M3`.
 
-**Exemplos:**
-- `MOV R5, R7`: Copia o conteúdo do registrador `R7` para o registrador `R5`.
-- `MOV R2, #25`: Copia o valor decimal imediato `25` para o registrador `R2`.
-- `MOV R1, #0x87`: Copia o valor hexadecimal imediato `87` para o registrador `R1`.
+### Nomenclatura
+- **STM32:** Indica que pertence à família STM32 de microcontroladores baseados em arquiteturas ARM Cortex.
 
-#### Pseudo-Instrução LDR  
-A instrução `LDR` (Load Register) é usada para carregar um valor de uma localização de memória ou um valor imediato para um registrador.
+- **F:** Refere-se à série de produtos dentro da família STM32. No caso, "F" representa a série focada em alto desempenho para aplicações gerais.
 
-**Sintaxe:**
-```assembly
-LDR A, [B, offset]    ; Para carregar da memória
-LDR A, =value         ; Para carregar um valor imediato
-```
-- `A`: Registrador que irá receber o valor.
-- `[B, offset]`: Endereço de memória de onde o valor será carregado.
-  - `B`: Registrador contendo o endereço base de memória.
-  - `offset` (opcional): Valor imediato ou registrador que será adicionado ao endereço base para calcular o endereço final.
-- `=value`: Valor imediato que será carregado diretamente no registrador.
+- **103:** Especifica a subfamília do microcontrolador.
+    - **1** indica que é baseado no núcleo ARM Cortex-M3.
+    - **03** indica o nível de funcionalidade e recursos, como velocidades de clock, interfaces e memória.
 
-**Exemplos:**
-- `LDR R6, [R7]`: Carrega o valor armazenado na memória apontada por `R7` para o registrador `R6`.
-- `LDR R1, [R2, #12]`: Carrega o valor do endereço `R2 + 12` para o registrador `R1`.
-- `LDR R0, [R4, -#8]`: Carrega o valor do endereço `R4 - 8` para o registrador `R0`.
-- `LDR R3, [R8], #4`: Carrega o valor do endereço apontado por `R8` para `R3`, e em seguida incrementa `R8` em 4.
-- `LDR R0, =0x1234`: Carrega o valor imediato `0x1234` no registrador `R0`.
-- `LDR R1, =100`: Carrega o valor decimal imediato `100` no registrador `R1`.
+- **C:** Representa o encapsulamento (package) do microcontrolador. "C" geralmente significa um encapsulamento LQFP (Low-Profile Quad Flat Package) de 48 pinos.
+
+- **8:** Refere-se à capacidade de memória Flash do microcontrolador. O número 8 indica que possui 64 KB de memória Flash (a ST usa um código em que "8" corresponde a 64 KB, "B" seria 128 KB, etc.).
+
+- **T:** Indica a faixa de temperatura operacional. "T" significa que o microcontrolador pode operar na faixa de temperatura industrial, geralmente entre -40°C e +85°C.
+
+- **6:** Refere-se à classe de encapsulamento e acabamento. "6" geralmente indica que o microcontrolador é de grau padrão (com acabamento de qualidade padrão).
+
+### Especificações
+- Frequência da CPU: 72 MHz
+- Memória RAM: 20 KB
+- Memória Flash: 64 KB
