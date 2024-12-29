@@ -154,9 +154,13 @@ Na arquitetura ARM, existe apenas um espaço de memória que pode ir até 4 Giga
 ### Assembly
 Os códigos, acompanhados de comentários explicativos, estão disponíveis na pasta `Assembly`.
 
-Foram desenvolvidos com base nos seguintes recursos:  
-- [Vídeo no YouTube](https://www.youtube.com/watch?v=gfmRrPjnEw4&t=386s)  
-- [Emulador ARM DE1-SoC](https://cpulator.01xz.net/?sys=arm-de1soc)
+Esse trecho foi dividido em duas partes:
+1. Foram desenvolvidos com base nos seguintes recursos:  
+    - [Vídeo no YouTube](https://www.youtube.com/watch?v=gfmRrPjnEw4&t=386s)  
+    - [Emulador ARM DE1-SoC](https://cpulator.01xz.net/?sys=arm-de1soc)
+2. Seguindo os capitulos do livro
+
+Ao terminar a parte 1 posso dizer que tenho um pouco de noção de como a estrutura de um programa assembly funciona, porém nada foi aprofundado, esperando que com a parte 2 eu venha a entender melhor alguns conceitos.
 
 Depois de assistir o vídeo e reproduzir os códigos, devo ler os capítulos 2 ao 6 do livro *"[The STM32F103 Arm Microcontroller and Embedded Systems Using Assembly and C](https://www.amazon.com.br/STM32F103-Arm-Microcontroller-Embedded-Systems/dp/1970054018)"* e fazer os exercicios presentes no site ao fim de cada capítulo.
 
