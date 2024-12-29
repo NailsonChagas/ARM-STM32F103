@@ -9,7 +9,6 @@
 //		- MOV destino, origem
 //			- destino: registrador de destino
 //			- origem: registrador/memória de origem
-// - SWI: software interrupt, quando ocorre o O.S vai ler o r7
 // - LDR: carregar memória da stack para o registrador
 
 .global _start 
