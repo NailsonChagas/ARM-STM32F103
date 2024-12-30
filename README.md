@@ -8,16 +8,17 @@ Este repositório tem como objetivo documentar meu processo de aprendizado nas d
     3. [Tipos de computadores](#tipos-de-computadores)  
     4. [Como escolher um microcontrolador?](#como-escolher-um-microcontrolador)  
 2. [Arquitetura ARM](#arquitetura-arm)  
-    1. [Pequeno histórico](#pequeno-histórico)  
-    2. [Adaptabilidade tem suas desvantagens](#adaptabilidade-tem-suas-desvantagens)  
-    3. [Registrador (register)](#registrador-register)  
+    1. [RISC](#risc) 
+    2. [Pequeno histórico](#pequeno-histórico)  
+    3. [Adaptabilidade tem suas desvantagens](#adaptabilidade-tem-suas-desvantagens)  
+    4. [Registrador (register)](#registrador-register)  
         1. [Registrador de Uso Geral (General Purpose Register - GPR)](#registrador-de-uso-geral-general-purpose-register---gpr)
         2. [Stack Pointer (SP)](#stack-pointer-sp)
         3. [Link Register (LR)](#link-register-lr)
         4. [Program Counter (PC)](#program-counter-pc)
         5. [Current Program Status Register (CPSR)](#current-program-status-register-cpsr)
-    4. [Mapa de memória](#mapa-de-memória)
-    5. [Assembly](#assembly)
+    5. [Mapa de memória](#mapa-de-memória)
+    6. [Assembly](#assembly)
 3. [STM32F103C8T6](#stm32f103c8t6)
     1. [Nomenclatura](#nomenclatura)
     2. [Especificações](#especificações)
@@ -84,6 +85,18 @@ memórias e periféricos integrados) e recursos disponíveis (suporte, IDE, prod
 ARM (Advanced RISC Machine) é uma família de arquiteturas de processadores baseadas no modelo RISC (Reduced Instruction Set Computing). 
 A ARM Holdings, uma empresa britânica, é a responsável pelo desenvolvimento e licenciamento dessas arquiteturas. A arquitetura ARM 
 é caracterizada por: eficiência energética, simplicidade, tamanho compacto e capacidade de personalização.
+
+### RISC
+RISC (Reduced Instruction Set Computer) é uma arquitetura de processador que se caracteriza por ter um conjunto de instruções simples e de execução rápida. A ideia principal por trás do RISC é que um processador deve ser capaz de executar a maioria de suas operações em um único ciclo de clock, tornando o design mais eficiente e permitindo um desempenho superior em relação a arquiteturas mais complexas, como o CISC (Complex Instruction Set Computer).
+
+A arquitetura RISC pode ser caracterizada pelos seguintes fatos:
+
+1. **Conjunto de instruções simplificado**: O processador possui um número reduzido de instruções, e cada uma delas é otimizada para ser executada rapidamente, sem precisar de ciclos múltiplos.
+2. **Execução em um ciclo de clock**: A maioria das instruções pode ser executada em um único ciclo de clock, o que torna a execução mais eficiente.
+3. **Instruções de tipo único**: O foco é em operações simples de manipulação de dados e controle de fluxo, em vez de instruções complexas.
+4. **Uso eficiente de registradores**: Em vez de acessar a memória frequentemente, as instruções RISC usam os registradores de forma intensiva para operações, o que também contribui para maior velocidade.
+
+A arquitetura ARM, por exemplo, é baseada em RISC, o que permite que seus processadores sejam eficientes em termos de desempenho e consumo de energia, sendo amplamente utilizados em dispositivos móveis, sistemas embarcados e outros produtos que exigem um bom equilíbrio entre desempenho e eficiência energética.
 
 ### Pequeno histórico
 A ARM surgiu na década de 1980 dentro da empresa "Acorn Computers" (Reino Unido) graças ao trabalho de Steve Furber e Sophie Wilson, 
@@ -152,13 +165,13 @@ Na arquitetura ARM, existe apenas um espaço de memória que pode ir até 4 Giga
 - Flash ROM: Bloco de memória reservado para armazenar o programa. Também pode ser usado para armazenar dados estáticos (ex: look-up table e strings)
 
 ### Assembly
-Os códigos, acompanhados de comentários explicativos, estão disponíveis na pasta `Assembly`.
-
 Esse trecho foi dividido em duas partes:
 1. Foram desenvolvidos com base nos seguintes recursos:  
     - [Vídeo no YouTube](https://www.youtube.com/watch?v=gfmRrPjnEw4&t=386s)  
     - [Emulador ARM DE1-SoC](https://cpulator.01xz.net/?sys=arm-de1soc)
-2. Seguindo os capitulos do livro
+    - Os códigos, acompanhados de comentários explicativos, estão disponíveis na pasta `ARM_Assembly_youtube`.
+2. Seguindo os capitulos 2 a 6 do livro:
+    - Os códigos, acompanhados de comentários explicativos, estão disponíveis na pasta `ARM_Assembly_livro`.
 
 Ao terminar a parte 1 posso dizer que tenho um pouco de noção de como a estrutura de um programa assembly funciona, porém nada foi aprofundado, esperando que com a parte 2 eu venha a entender melhor alguns conceitos.
 
