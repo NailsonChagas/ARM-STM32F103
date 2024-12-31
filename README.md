@@ -172,8 +172,7 @@ Esse trecho foi dividido em duas partes:
     - Os códigos, acompanhados de comentários explicativos, estão disponíveis na pasta `ARM_Assembly_youtube`.
 2. Seguindo os capitulos 2 a 6 do livro:
     - Os códigos, acompanhados de comentários explicativos, estão disponíveis na pasta `ARM_Assembly_livro`.
-
-Ao terminar a parte 1 posso dizer que tenho um pouco de noção de como a estrutura de um programa assembly funciona, porém nada foi aprofundado, esperando que com a parte 2 eu venha a entender melhor alguns conceitos.
+    
 
 Depois de assistir o vídeo e reproduzir os códigos, devo ler os capítulos 2 ao 6 do livro *"[The STM32F103 Arm Microcontroller and Embedded Systems Using Assembly and C](https://www.amazon.com.br/STM32F103-Arm-Microcontroller-Embedded-Systems/dp/1970054018)"* e fazer os exercicios presentes no site ao fim de cada capítulo.
 
@@ -197,7 +196,24 @@ O `STM32F103C8T6` é um microcontrolador da série STM32 da STMicroelectronics, 
 
 - **6:** Refere-se à classe de encapsulamento e acabamento. "6" geralmente indica que o microcontrolador é de grau padrão (com acabamento de qualidade padrão).
 
-### Especificações
+### Especificações (TO DO)
 - Frequência da CPU: 72 MHz
 - Memória RAM: 20 KB
 - Memória Flash: 64 KB
+
+### Desenvolvimento (TO DO)
+- Como estou usando o sistema Ubuntu 22.04 (Linux) não usarei a mesma IDE do vídeo
+    - Para preparar o ambiente de desenvolvimento:
+        0. Instalar o Visual Studio Code
+            - Instalar as extenções: `C/C++` e `Cortex-Debug`
+        1. Instalar o GCC para ARM (toolchain): `sudo apt install gcc-arm-none-eabi gdb-multiarch`
+        2. Instalar o OpenOCD (Open On-Chip Debugger): `sudo apt install openocd` 
+        3. Instalar o Serial/Terminal: `sudo apt install minicom` ou `sudo apt install screen`
+        4. Instalar o ST-Link Drivers: `sudo apt install stlink-tools`
+            - Checar ST-Link está sendo reconhecido: `sudo st-info --probe`
+    - Para compilar o arquivo assembly:
+        0. Não sei, preciso procurar como fazer o makefile e como fazer o linker
+        1. Para passar para o dispositivo: `sudo st-flash --reset write main.bin 0x8000000`
+
+    - Para debugar (https://www.youtube.com/watch?v=_1u7IOnivnM&t=84s):
+        0. `sudo openocd -f /usr/share/openocd/scripts/interface/stlink.cfg -f /usr/share/openocd/scripts/target/stm32f1x.cfg`
