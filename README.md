@@ -19,6 +19,7 @@ Este repositório tem como objetivo documentar meu processo de aprendizado nas d
         5. [Current Program Status Register (CPSR)](#current-program-status-register-cpsr)
     5. [Mapa de memória](#mapa-de-memória)
     6. [Assembly](#assembly)
+    7. [Pipelining e arquitetura Harvard em ARM](#pipelining-e-arquitetura-harvard-em-arm)
 3. [STM32F103C8T6](#stm32f103c8t6)
     1. [Nomenclatura](#nomenclatura)
     2. [Especificações](#especificações)
@@ -91,10 +92,12 @@ RISC (Reduced Instruction Set Computer) é uma arquitetura de processador que se
 
 A arquitetura RISC pode ser caracterizada pelos seguintes fatos:
 
-1. **Conjunto de instruções simplificado**: O processador possui um número reduzido de instruções, e cada uma delas é otimizada para ser executada rapidamente, sem precisar de ciclos múltiplos.
-2. **Execução em um ciclo de clock**: A maioria das instruções pode ser executada em um único ciclo de clock, o que torna a execução mais eficiente.
-3. **Instruções de tipo único**: O foco é em operações simples de manipulação de dados e controle de fluxo, em vez de instruções complexas.
-4. **Uso eficiente de registradores**: Em vez de acessar a memória frequentemente, as instruções RISC usam os registradores de forma intensiva para operações, o que também contribui para maior velocidade.
+0. **Instruções de tamanho unico**: As intruções de um processador RISC possem tamanhos iguais, ao contrário da arquitetura CISC em que uma intrução pode ter tamanho 1byte e outra 5 bytes.
+1. **Número limitado de registradores**: CPU's RISC possuem um numero pequeno de registradores (comumente de 8 a 16)
+2. **Conjunto de instruções simplificado**: O processador possui um número reduzido de instruções, e cada uma delas é otimizada para ser executada rapidamente, sem precisar de ciclos múltiplos.
+3. **Execução em um ciclo de clock**: A maioria das instruções pode ser executada em um único ciclo de clock, o que torna a execução mais eficiente.
+4. **Instruções de tipo único**: O foco é em operações simples de manipulação de dados e controle de fluxo, em vez de instruções complexas.
+5. **Uso eficiente de registradores**: Em vez de acessar a memória frequentemente, as instruções RISC usam os registradores de forma intensiva para operações, o que também contribui para maior velocidade.
 
 A arquitetura ARM, por exemplo, é baseada em RISC, o que permite que seus processadores sejam eficientes em termos de desempenho e consumo de energia, sendo amplamente utilizados em dispositivos móveis, sistemas embarcados e outros produtos que exigem um bom equilíbrio entre desempenho e eficiência energética.
 
@@ -175,6 +178,12 @@ Esse trecho foi dividido em duas partes:
     
 
 Depois de assistir o vídeo e reproduzir os códigos, devo ler os capítulos 2 ao 6 do livro *"[The STM32F103 Arm Microcontroller and Embedded Systems Using Assembly and C](https://www.amazon.com.br/STM32F103-Arm-Microcontroller-Embedded-Systems/dp/1970054018)"* e fazer os exercicios presentes no site ao fim de cada capítulo.
+
+
+### Pipelining e arquitetura Harvard em ARM
+- **Pipelining:** Em microprocessadores antigos, a CPU executava uma instrução por vez. O pipelining permite que a CPU busque e execute instruções simultaneamente, dividindo a execução em etapas menores que podem ser executadas em paralelo. A execução é limitada pela etapa mais lenta do pipeline
+
+- **Arquitetura Harvard:** A arquitetura Harvard separa os barramentos de código e dados, permitindo que a CPU busque instruções e acesse dados ao mesmo tempo. 
 
 ## STM32F103C8T6
 O `STM32F103C8T6` é um microcontrolador da série STM32 da STMicroelectronics, amplamente utilizado em sistemas embarcados devido ao seu excelente custo-benefício e versatilidade. Ele pertence à família STM32F1, que é baseada na arquitetura `ARM Cortex-M3`.
