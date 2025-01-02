@@ -11,8 +11,10 @@
 |   BLS   |           Branch if Lower or Same              | Branch if Z=1 ou C=0 |
 |   BHI   |               Branch if Higher                 | Branch if Z=0 ou C=1 |
 |  B/BAL  |                Branch Always                   |     Always branch    |                      
+|   CMP   |                    Compare                     | rA - rB e ativa flags|
 -----------------------------------------------------------------------------------            
 
+Diferentemente do SUBS o CMP não ira armazenar o resultado da subtração
 
 */
 
