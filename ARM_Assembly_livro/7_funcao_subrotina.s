@@ -18,7 +18,7 @@ O código chama a subrotina 'pow' com os valores 2 e 3, calculando 2^3, e em seg
 _start:
 	MOV r0, #2        // Carrega 2 em r0 (base)
 	MOV r1, #3        // Carrega 3 em r1 (expoente)
-	BL pow            // Chama a subrotina pow (r0_value ^ r1_value)
+	BL pow            // Chama a subrotina pow (r0_value ^ r1_value) e salva a linha em lr
 	// Após a execução de pow, o controle retorna aqui
 	
 	ADD r4, r2, #1    // Incrementa o valor de r2 (resultado de pow) e armazena em r4
@@ -36,6 +36,6 @@ loop:
 	B loop            // Volta ao loop
 
 done:
-	BX lr             // Retorna da subrotina (usuário do valor em r2)
+	BX lr             // Retorna da subrotina (vai para a linha salva em lr)
 
 end:
