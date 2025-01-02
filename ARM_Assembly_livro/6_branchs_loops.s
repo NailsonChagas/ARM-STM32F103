@@ -16,6 +16,13 @@
 
 Diferentemente do SUBS o CMP não ira armazenar o resultado da subtração
 
+-----------------------------------------------------------------------------------------------
+| INSTRUÇÃO | OPERAÇÃO |                AÇÃO                 |          FLAG Z SETADO         |
+|-----------|----------|-------------------------------------|--------------------------------|
+|    TST    |   ANDS   |     Verifica se há bits em comum    |  Quando não há bits em comum   |
+|    TEQ    |   XORS   | Verifica se os operandos são iguais | Quando os operandos são iguais |
+-----------------------------------------------------------------------------------------------
+
 */
 
 .global _start
