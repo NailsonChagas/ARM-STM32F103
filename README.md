@@ -185,6 +185,13 @@ Depois de assistir o vídeo e reproduzir os códigos, devo ler os capítulos 2 a
 
 - **Arquitetura Harvard:** A arquitetura Harvard separa os barramentos de código e dados, permitindo que a CPU busque instruções e acesse dados ao mesmo tempo. 
 
+### SRAM  
+- **Stack:**  
+  O **Stack** é uma região de memória SRAM usada para armazenar dados temporários, como variáveis locais e registros salvos durante chamadas de função. Ele cresce e encolhe de forma dinâmica, normalmente de endereços altos para endereços baixos, e é gerenciado automaticamente pelo compilador e pelo processador através do ponteiro de pilha (SP - Stack Pointer). Em ARM assembly, instruções como `PUSH` e `POP` são usadas para manipular o stack.  
+
+- **Heap:**  
+  O **Heap** é outra região de memória SRAM usada para alocação dinâmica de memória em tempo de execução. Diferentemente do stack, ele cresce de endereços baixos para altos. A alocação e liberação de memória no heap são gerenciadas explicitamente pelo programador, geralmente por meio de chamadas de funções como `malloc` e `free` (em linguagens de alto nível) ou manipulação direta de ponteiros. O uso do heap em sistemas embarcados deve ser cuidadoso devido aos recursos limitados.  
+
 ## STM32F103C8T6
 O `STM32F103C8T6` é um microcontrolador da série STM32 da STMicroelectronics, amplamente utilizado em sistemas embarcados devido ao seu excelente custo-benefício e versatilidade. Ele pertence à família STM32F1, que é baseada na arquitetura `ARM Cortex-M3`.
 
