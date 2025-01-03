@@ -18,8 +18,10 @@ Este repositório tem como objetivo documentar meu processo de aprendizado nas d
         4. [Program Counter (PC)](#program-counter-pc)
         5. [Current Program Status Register (CPSR)](#current-program-status-register-cpsr)
     5. [Mapa de memória](#mapa-de-memória)
-    6. [Assembly](#assembly)
-    7. [Pipelining e arquitetura Harvard em ARM](#pipelining-e-arquitetura-harvard-em-arm)
+    6. [SRAM](#sram)
+    7. [Assembly](#assembly)
+    8. [Pipelining e arquitetura Harvard em ARM](#pipelining-e-arquitetura-harvard-em-arm)
+    
 3. [STM32F103C8T6](#stm32f103c8t6)
     1. [Nomenclatura](#nomenclatura)
     2. [Especificações](#especificações)
@@ -167,6 +169,13 @@ Na arquitetura ARM, existe apenas um espaço de memória que pode ir até 4 Giga
 - SRAM: Usado para variáveis de dados e pilha (stack) e é acessado pelas instruções do microcontrolador
 - Flash ROM: Bloco de memória reservado para armazenar o programa. Também pode ser usado para armazenar dados estáticos (ex: look-up table e strings)
 
+### SRAM  
+- **Stack:**  
+  O **Stack** é uma região de memória SRAM usada para armazenar dados temporários, como variáveis locais e registros salvos durante chamadas de função. Ele cresce e encolhe de forma dinâmica, normalmente de endereços altos para endereços baixos, e é gerenciado automaticamente pelo compilador e pelo processador através do ponteiro de pilha (SP - Stack Pointer). Em ARM assembly, instruções como `PUSH` e `POP` são usadas para manipular o stack.  
+
+- **Heap:**  
+  O **Heap** é outra região de memória SRAM usada para alocação dinâmica de memória em tempo de execução. Diferentemente do stack, ele cresce de endereços baixos para altos. A alocação e liberação de memória no heap são gerenciadas explicitamente pelo programador, geralmente por meio de chamadas de funções como `malloc` e `free` (em linguagens de alto nível) ou manipulação direta de ponteiros. O uso do heap em sistemas embarcados deve ser cuidadoso devido aos recursos limitados.  
+
 ### Assembly
 Esse trecho foi dividido em duas partes:
 1. Foram desenvolvidos com base nos seguintes recursos:  
@@ -176,21 +185,14 @@ Esse trecho foi dividido em duas partes:
 2. Seguindo os capitulos 2 a 6 do livro:
     - Os códigos, acompanhados de comentários explicativos, estão disponíveis na pasta `ARM_Assembly_livro`.
     
-
 Depois de assistir o vídeo e reproduzir os códigos, devo ler os capítulos 2 ao 6 do livro *"[The STM32F103 Arm Microcontroller and Embedded Systems Using Assembly and C](https://www.amazon.com.br/STM32F103-Arm-Microcontroller-Embedded-Systems/dp/1970054018)"* e fazer os exercicios presentes no site ao fim de cada capítulo.
-
 
 ### Pipelining e arquitetura Harvard em ARM
 - **Pipelining:** Em microprocessadores antigos, a CPU executava uma instrução por vez. O pipelining permite que a CPU busque e execute instruções simultaneamente, dividindo a execução em etapas menores que podem ser executadas em paralelo. A execução é limitada pela etapa mais lenta do pipeline
 
 - **Arquitetura Harvard:** A arquitetura Harvard separa os barramentos de código e dados, permitindo que a CPU busque instruções e acesse dados ao mesmo tempo. 
 
-### SRAM  
-- **Stack:**  
-  O **Stack** é uma região de memória SRAM usada para armazenar dados temporários, como variáveis locais e registros salvos durante chamadas de função. Ele cresce e encolhe de forma dinâmica, normalmente de endereços altos para endereços baixos, e é gerenciado automaticamente pelo compilador e pelo processador através do ponteiro de pilha (SP - Stack Pointer). Em ARM assembly, instruções como `PUSH` e `POP` são usadas para manipular o stack.  
 
-- **Heap:**  
-  O **Heap** é outra região de memória SRAM usada para alocação dinâmica de memória em tempo de execução. Diferentemente do stack, ele cresce de endereços baixos para altos. A alocação e liberação de memória no heap são gerenciadas explicitamente pelo programador, geralmente por meio de chamadas de funções como `malloc` e `free` (em linguagens de alto nível) ou manipulação direta de ponteiros. O uso do heap em sistemas embarcados deve ser cuidadoso devido aos recursos limitados.  
 
 ## STM32F103C8T6
 O `STM32F103C8T6` é um microcontrolador da série STM32 da STMicroelectronics, amplamente utilizado em sistemas embarcados devido ao seu excelente custo-benefício e versatilidade. Ele pertence à família STM32F1, que é baseada na arquitetura `ARM Cortex-M3`.
