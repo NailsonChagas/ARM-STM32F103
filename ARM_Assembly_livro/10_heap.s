@@ -39,7 +39,7 @@ Exemplo:
 	Após alocar 32 bytes: Ponteiro da heap = 0x20002020  (536879136)
 	
 OBS: a stack e a heap devem ter limites bem definidos de modo a impedir a heap colidir
-com a stack. Essa 
+com a stack. 
 */
 
 .syntax unified // especifica que o código será escrito na "Unified Assembly Language"
