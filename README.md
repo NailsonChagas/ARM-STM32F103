@@ -318,7 +318,7 @@ Como estou usando o sistema Ubuntu 22.04 (Linux), não utilizarei a mesma IDE me
 		- Targeted Language: `C`
 		- Targeted Binary Type: `Executable`
 		- Targeted Project Type: `Empty`
-	5. Comentar a seção `#if !defined(__SOFT_FP__) && defined(__ARM_FP)` na `main.c`
+	5. Comentar a seção `#if !defined(__SOFT_FP__) && defined(__ARM_FP)` na `main.c` já que o `Cortex-M3` não possui uma FPU integrada 
 	6. Incluir as bibliotecas e arquivos na pasta `Inc`:
 		- `CMSIS/Core/Include`
 		- `Device/ST/STM32F1xx/Include`
@@ -326,3 +326,5 @@ Como estou usando o sistema Ubuntu 22.04 (Linux), não utilizarei a mesma IDE me
 		- Obs:
 			- Ambos disponiveis em [STM32CubeF1](https://github.com/STMicroelectronics/STM32CubeF1)
 			- Para facilitar deixei os arquivos em uma pasta chamada `Drivers` neste repositório
+	
+	Obs: Projeto `0_test` é um projeto vazio em que foi seguido acima
