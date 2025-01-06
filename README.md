@@ -30,7 +30,8 @@ Este repositório tem como objetivo documentar meu processo de aprendizado nas d
 3. [STM32F103C8T6](#stm32f103c8t6)
     1. [Nomenclatura](#nomenclatura)
     2. [Especificações](#especificações)
-
+    3. [Desenvolvimento](#desenvolvimento)
+    
 ## Conhecimentos gerais
 
 ### Glossário
