@@ -202,7 +202,7 @@ Depois de assistir o vídeo e reproduzir os códigos, devo ler os capítulos 2 a
 
 #### Arquitetura de Memória
 - A arquitetura ARM utiliza endereços de 32 bits, possibilitando acesso direto a até 4 GB de memória (endereços de `0x00000000` a `0xFFFFFFFF`), com cada byte possuindo um endereço exclusivo. Isso é conhecido como CPU byte-addressable.
-- O barramento de dados (D31–D0) suporta acesso a dados de 8 bits (byte), 16 bits (halfword) e 32 bits (word). Já o barramento de endereços (A31–A0) controla os acessos às memórias internas e externas.
+- O barramento de dados (D31-D0) suporta acesso a dados de 8 bits (byte), 16 bits (halfword) e 32 bits (word). Já o barramento de endereços (A31-A0) controla os acessos às memórias internas e externas.
 
 #### Barramentos AHB e APB
 - O ARM utiliza dois principais barramentos para gerenciar acessos:
@@ -267,11 +267,11 @@ Os modos de endereçamento determinam como o endereço da memória é calculado 
 
 - **Regiões Bit-Band**
     - **SRAM Bit-Band:**
-        - Endereços reais: 0x20000000 – 0x200FFFFF.
-        - Endereços alias: 0x22000000 – 0x23FFFFFF.
+        - Endereços reais: 0x20000000 - 0x200FFFFF.
+        - Endereços alias: 0x22000000 - 0x23FFFFFF.
     - **Periféricos Bit-Band:**
-        - Endereços reais: 0x40000000 – 0x400FFFFF.
-        - Endereços alias: 0x42000000 – 0x43FFFFFF.
+        - Endereços reais: 0x40000000 - 0x400FFFFF.
+        - Endereços alias: 0x42000000 - 0x43FFFFFF.
 
 - **Vantagens**
     - Operações em bits individuais se tornam atômicas (não podem ser interrompidas), aumentando a confiabilidade e eficiência.
@@ -297,24 +297,32 @@ O `STM32F103C8T6` é um microcontrolador da série STM32 da STMicroelectronics, 
 
 - **6:** Refere-se à classe de encapsulamento e acabamento. "6" geralmente indica que o microcontrolador é de grau padrão (com acabamento de qualidade padrão).
 
-### Especificações (TO DO)
+### Especificações
 - Frequência da CPU: 72 MHz
 - Memória RAM: 20 KB
 - Memória Flash: 64 KB
+- Tensão de Operação: 3,3V (Alimentação)
+- Entradas Analógicas: 10 pinos de entrada analógica
+- Pinos de E/S Digitais: 37 pinos GPIO distribuídos em quatro portas (A, B, C e D)
+- Capacidade de Corrente dos Pinos: Cada pino GPIO pode fornecer ou consumir até 6mA de corrente
+- Comunicações: Suporte a I2C, SPI, UART, CAN e USB
 
-### Desenvolvimento (TO DO)
-- Como estou usando o sistema Ubuntu 22.04 (Linux) não usarei a mesma IDE do vídeo
-    - Para preparar o ambiente de desenvolvimento:
-        0. Instalar o Visual Studio Code
-            - Instalar as extenções: `C/C++` e `Cortex-Debug`
-        1. Instalar o GCC para ARM (toolchain): `sudo apt install gcc-arm-none-eabi gdb-multiarch`
-        2. Instalar o OpenOCD (Open On-Chip Debugger): `sudo apt install openocd` 
-        3. Instalar o Serial/Terminal: `sudo apt install minicom` ou `sudo apt install screen`
-        4. Instalar o ST-Link Drivers: `sudo apt install stlink-tools`
-            - Checar ST-Link está sendo reconhecido: `sudo st-info --probe`
-    - Para compilar o arquivo assembly:
-        0. Não sei, preciso procurar como fazer o makefile e como fazer o linker
-        1. Para passar para o dispositivo: `sudo st-flash --reset write main.bin 0x8000000`
+### Desenvolvimento
+Como estou usando o sistema Ubuntu 22.04 (Linux), não utilizarei a mesma IDE mencionada no livro (ARM Keil), pois ela está disponível apenas para Windows, e não gostei de como está funcionando via Wine. Por conta disso, utilizarei a STM32CubeIDE para criar projetos que não utilizam o HAL, assim como foi feito no livro. Depois de aprender a programar utilizando registradores, pretendo estudar o HAL, já que ele simplifica bastante o processo de desenvolvimento.
 
-    - Para debugar (https://www.youtube.com/watch?v=_1u7IOnivnM&t=84s):
-        0. `sudo openocd -f /usr/share/openocd/scripts/interface/stlink.cfg -f /usr/share/openocd/scripts/target/stm32f1x.cfg`
+- **Usando a STM32CubeIDE sem o HAL**:
+	1. Clicar em `Start new STM32 project`
+	2. Procure por `f103c8t6` na seção `Commercial Part Number`
+	3. Selecione o microcontrolador `STM32F103C8T6`
+	4. Criar o projeto com as seguintes configurações:
+		- Targeted Language: `C`
+		- Targeted Binary Type: `Executable`
+		- Targeted Project Type: `Empty`
+	5. Comentar a seção `#if !defined(__SOFT_FP__) && defined(__ARM_FP)` na `main.c`
+	6. Incluir as bibliotecas e arquivos na pasta `Inc`:
+		- `CMSIS/Core/Include`
+		- `Device/ST/STM32F1xx/Include`
+			- No arquivo `stm32f1xx.h` descomentar `#define STM32F103xB`
+		- Obs:
+			- Ambos disponiveis em [STM32CubeF1](https://github.com/STMicroelectronics/STM32CubeF1)
+			- Para facilitar deixei os arquivos em uma pasta chamada `Drivers` neste repositório
