@@ -1,0 +1,24 @@
+# Variáveis
+CC = arm-none-eabi-gcc
+CFLAGS = -Wall -O2 -mcpu=cortex-m3 -mthumb
+
+# Alvo principal
+default: all
+
+# Nome do arquivo fonte (substitua 'main' pelo nome desejado)
+SRC = $(FILE).c
+BIN = $(FILE)
+ASM = $(FILE).s
+
+# Regras
+all: $(BIN) $(ASM)
+
+$(BIN): $(SRC)
+	$(CC) $(CFLAGS) -o $(BIN) $(SRC)
+
+$(ASM): $(SRC)
+	$(CC) $(CFLAGS) -S -o $(ASM) $(SRC)
+
+# Limpeza
+clean:
+	rm -f $(BIN) $(ASM)
