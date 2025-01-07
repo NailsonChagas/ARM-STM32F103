@@ -5,9 +5,9 @@ CFLAGS = -Wall -O2 -mcpu=cortex-m3 -mthumb
 # Alvo principal
 default: all
 
-# Nome do arquivo fonte (substitua 'main' pelo nome desejado)
+# Nome do arquivo fonte
 SRC = $(FILE).c
-BIN = $(FILE)
+BIN = $(FILE).bin
 ASM = $(FILE).s
 
 # Regras
