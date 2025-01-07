@@ -31,7 +31,10 @@ Este repositório tem como objetivo documentar meu processo de aprendizado nas d
     1. [Nomenclatura](#nomenclatura)
     2. [Especificações](#especificações)
     3. [Desenvolvimento](#desenvolvimento)
-    
+	4. [C para Sistemas Embarcados](#c-para-sistemas-embarcados)
+		1. [Tamanhos e Especificações dos Tipos de Dados](#tamanhos-e-especificações-dos-tipos-de-dados)
+		2. [Operações Bitwise em C](#operações-bitwise-em-c)
+
 ## Conhecimentos gerais
 
 ### Glossário
@@ -329,3 +332,98 @@ Como estou usando o sistema Ubuntu 22.04 (Linux), não utilizarei a mesma IDE me
 			- Para facilitar deixei os arquivos em uma pasta chamada `Drivers` neste repositório
 	
 	Obs: Projeto `0_test` é um projeto vazio em que foi seguido acima
+
+### C para Sistemas Embarcados
+
+#### Tamanhos e Especificações dos Tipos de Dados
+A linguagem C não especifica o tamanho dos tipos de dados; depende do compilador.
+
+1. **Exemplos de tamanhos típicos em sistemas ARM (32 bits):**
+    - `char`: 1 byte (signed: -128 a 127, unsigned: 0 a 255).
+    - `short int`: 2 bytes (signed: -32.768 a 32.767, unsigned: 0 a 65.535).
+    - `int` e `long`: 4 bytes (int: mesmo que long no ARM, signed: -2.147.483.648 a 2.147.483.647).
+    - `long long`: 8 bytes (signed: -9,22x10¹⁸ a 9,22x10¹⁸).
+
+2. **Desempenho e Alinhamento**:
+    - **Alinhamento**: Variáveis são alocadas em endereços específicos (ex.: múltiplos de 4 em sistemas de 32 bits).
+    - **Desalinhamento** pode causar penalidades de desempenho.
+
+3. **Razões para Escolha do Tipo de Dados**:
+    - **Desempenho**: Em CPUs de 8 bits, tipos menores otimizam recursos. Em ARM, 1, 2 ou 4 bytes têm impacto similar.
+    - **Overflow**: Tipos pequenos podem causar erros de overflow (ex.: contagem de segundos em `short int`).
+    - **Coerção**: Conversão implícita de tipos (ex.: `int` para `char`) pode levar a resultados indesejados.
+
+4. **Padrões C99 (`stdint.h`)**:
+    - Tipos de dados com tamanho fixo (ex.: `int8_t`, `uint32_t`) garantem portabilidade e clareza.
+
+#### Operações Bitwise em C
+
+1. **Operadores Bitwise**:
+    - `&` (AND), `|` (OR), `^` (XOR), `~` (NOT), `>>` (shift right), `<<` (shift left).
+    - **Exemplo**:
+        - `0x35 & 0x0F` → `0x05`
+        - `0x04 | 0x68` → `0x6C`
+        - `~0x55` → `0xAA`
+
+2. **Definições e Manipulação de Bits**:
+    - **Definir bits**: `register |= MASK` (ex.: `register |= 0x08` define o bit 3).
+    - **Limpar bits**: `register &= ~MASK` (ex.: `register &= ~0x20` limpa o bit 5).
+    - **Alternar bits**: `register ^= MASK`.
+
+3. **Teste de Bits**:
+    - Para verificar o estado de um bit específico:
+        ```c
+        if (var1 & 0x20) { /* Bit 5 é 1 */ } else { /* Bit 5 é 0 */ }
+        ```
+
+4. **Gerar Máscaras com Shift**:
+    - `1 << n`: Cria uma máscara com o bit `n` definido.
+    - **Combinações de bits**: `(1 << n) | (1 << m)` define os bits `n` e `m`.
+
+5. **Campos de Bits em Registradores**:
+   Em sistemas embarcados, é comum que certos bits de um registrador (ou variável) representem campos com valores significativos. Ao invés de manipular os bits individualmente, podemos usar máscaras e operações bitwise para lidar eficientemente com esses campos.
+
+    - **Exemplos Práticos**:
+     1. **Zerar um Campo**:
+        - Para zerar os bits 15-12:
+          ```c
+          register &= ~(15 << 12);
+          ```
+        **Explicação**:
+        - Criamos uma máscara `15 << 12` (`15` em binário é `1111`, deslocado para os bits 15-12).
+        - O operador `~` inverte os bits da máscara, criando `0`s nos bits 15-12 e `1`s nos outros.
+        - Usamos `&` para aplicar a máscara invertida ao registrador, garantindo que os bits 15-12 sejam zerados enquanto os outros permanecem inalterados.
+
+     2. **Configuração de um Divisor de Clock**:
+        Imagine um registrador de 32 bits onde os **bits 30-28** representam um divisor de clock. Cada combinação desses 3 bits define um valor de divisor, por exemplo:
+        - `000` = Divisor 0
+        - `001` = Divisor 1
+        - `101` = Divisor 5
+
+        Para definir o valor `5` nesse campo (bits 30-28):
+
+        - **Limpar os bits 30-28**:
+            ```c
+            register &= ~(7 << 28);
+            ```
+            **Explicação**:
+            - Criamos uma máscara `7 << 28` (`7` em binário é `111`, deslocado para os bits 30-28).
+            - O operador `~` inverte os bits da máscara, criando `0`s nos bits 30-28 e `1`s nos outros.
+            - Usamos `&` para zerar os bits 30-28, mantendo os outros bits do registrador inalterados.
+
+        - **Definir o valor `5` nos bits 30-28**:
+            ```c
+            register |= 5 << 28;
+            ```
+            **Explicação**:
+            - Criamos uma máscara para o valor `5` (`5` em binário é `101`) e a deslocamos para os bits 30-28.
+            - Usamos `|` para definir os bits 30-28 com o valor `5`, sem alterar os outros bits do registrador.
+
+        - **Combinação das operações**:
+            ```c
+            register = (register & ~(7 << 28)) | (5 << 28);
+            ```
+            **Explicação**:
+            - A operação é combinada em uma única instrução.
+            - Primeiro, limpamos os bits 30-28 com `register & ~(7 << 28)`.
+            - Em seguida, configuramos os bits 30-28 para `5` com `| (5 << 28)`.
