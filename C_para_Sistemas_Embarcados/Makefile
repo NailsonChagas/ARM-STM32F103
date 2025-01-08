@@ -1,6 +1,6 @@
 # Variáveis
 CC = arm-none-eabi-gcc
-CFLAGS = -Wall -O2 -mcpu=cortex-m3 -mthumb
+CFLAGS = -Wall -O3 -mcpu=cortex-m3 -mthumb
 
 # Alvo principal
 default: all
