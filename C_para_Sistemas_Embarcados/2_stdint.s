@@ -70,9 +70,10 @@ main:
 	movs	r0, #0
 
     /*
-        Variaveis usam 15 bytes, mas devido ao problema de
-        alinhamento 20 bytes são reservados na stack
+        Variaveis usam 15 bytes, mas devido ao problema
+        de alinhamento 20 bytes são reservados na stack
 
+        
     */
 	sub	sp, sp, #20
 
@@ -80,10 +81,10 @@ main:
         Guarda `a` (1 byte), `b` (2 bytes), 
         `c` (4 bytes) e `d` (8 bytes) na stack
     */
-	strb	lr, [sp, #1]
-	strh	ip, [sp, #2]	@ movhi
-	str	r1, [sp, #4]
-	strd	r2, [sp, #8]
+	strb	lr, [sp, #1]    // store byte
+	strh	ip, [sp, #2]	@ movhi // store half word
+	str	r1, [sp, #4]  // store word
+	strd	r2, [sp, #8] // store double word
 
     /*
         20 bytes são liberados da stack

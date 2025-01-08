@@ -36,6 +36,6 @@ loop:
 	B loop            // Volta ao loop
 
 done:
-	BX lr             // Retorna da subrotina (vai para a linha salva em lr)
+	BX lr             // Retorna da subrotina (vai para a linha de endereço salvo em lr)
 
 end:
