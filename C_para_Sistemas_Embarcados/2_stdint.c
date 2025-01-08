@@ -5,6 +5,8 @@ void _exit(int status) {
 }
 
 int main() {
+    // para usar unsigned é só colocar um u na frente: uint8_t 
+
     volatile int8_t a = 1;  //  8 bits (1 bytes)
     volatile int16_t b = 2; // 16 bits (2 bytes)
     volatile int32_t c = 3; // 32 bits (4 bytes)
