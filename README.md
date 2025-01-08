@@ -34,6 +34,7 @@ Este repositório tem como objetivo documentar meu processo de aprendizado nas d
 	4. [C para Sistemas Embarcados](#c-para-sistemas-embarcados)
 		1. [Tamanhos e Especificações dos Tipos de Dados](#tamanhos-e-especificações-dos-tipos-de-dados)
 		2. [Operações Bitwise em C](#operações-bitwise-em-c)
+    5. [Programação de I/O](#programação-de-io)
 
 ## Conhecimentos gerais
 
