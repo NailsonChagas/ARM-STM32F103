@@ -45,13 +45,13 @@ main:
 	@ args = 0, pretend = 0, frame = 8
 	@ frame_needed = 0, uses_anonymous_args = 0
 	@ link register save eliminated.
-	movs	r1, #1 // volatile int e = 1; 
-	movs	r2, #2 // volatile long f = 2; 
-	movs	r3, #0 // unsigned char i = 0 -> da declaração do for
-	sub	sp, sp, #8 // reserva espaço na stack
-	str	r1, [sp] // salva e no stack
+	movs	r1, #1 	// volatile int e = 1; 
+	movs	r2, #2 	// volatile long f = 2; 
+	movs	r3, #0 	// unsigned char i = 0 -> da declaração do for
+	sub	sp, sp, #8 	// reserva espaço na stack -> 8 por que `f` usa 4bytes e `e` usa 4 bytes
+	str	r1, [sp] 	// salva e no stack
 	str	r2, [sp, #4] // salva f no stack
-.L5:
+.L5: // -> loop for
 	// f *= i
 	ldr	r1, [sp, #4] // carrega f da stack
 	mul	r1, r3, r1 // f *= i
