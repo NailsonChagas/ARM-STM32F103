@@ -323,6 +323,7 @@ Como estou usando o sistema Ubuntu 22.04 (Linux), não utilizarei a mesma IDE me
 	Obs: Projeto `0_test` é um projeto vazio em que foi seguido acima
 
 ### C para Sistemas Embarcados
+Obs: Os arquivos `C` com exemplos de uso e os arquivos `Assembly` resultantes, comentados, estão na pasta `C_para_Sistemas_Embarcados`
 
 #### Tamanhos e Especificações dos Tipos de Dados
 A linguagem C não especifica o tamanho dos tipos de dados; depende do compilador.
