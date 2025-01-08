@@ -30,7 +30,7 @@ Este repositório tem como objetivo documentar meu processo de aprendizado nas d
 3. [STM32F103C8T6](#stm32f103c8t6)
     1. [Nomenclatura](#nomenclatura)
     2. [Especificações](#especificações)
-    3. [Desenvolvimento](#desenvolvimento)
+    3. [Ambiente de Desenvolvimento](#ambiente-de-desenvolvimento)
 	4. [C para Sistemas Embarcados](#c-para-sistemas-embarcados)
 		1. [Tamanhos e Especificações dos Tipos de Dados](#tamanhos-e-especificações-dos-tipos-de-dados)
 		2. [Operações Bitwise em C](#operações-bitwise-em-c)
@@ -300,7 +300,7 @@ O `STM32F103C8T6` é um microcontrolador da série STM32 da STMicroelectronics, 
 - Capacidade de Corrente dos Pinos: Cada pino GPIO pode fornecer ou consumir até 6mA de corrente
 - Comunicações: Suporte a I2C, SPI, UART, CAN e USB
 
-### Desenvolvimento
+### Ambiente de Desenvolvimento
 Como estou usando o sistema Ubuntu 22.04 (Linux), não utilizarei a mesma IDE mencionada no livro (ARM Keil), pois ela está disponível apenas para Windows, e não gostei de como está funcionando via Wine. Por conta disso, utilizarei a STM32CubeIDE para criar projetos que não utilizam o HAL, assim como foi feito no livro. Depois de aprender a programar utilizando registradores, pretendo estudar o HAL, já que ele simplifica bastante o processo de desenvolvimento.
 
 - **Usando a STM32CubeIDE sem o HAL**:
@@ -417,3 +417,5 @@ A linguagem C não especifica o tamanho dos tipos de dados; depende do compilado
             - A operação é combinada em uma única instrução.
             - Primeiro, limpamos os bits 30-28 com `register & ~(7 << 28)`.
             - Em seguida, configuramos os bits 30-28 para `5` com `| (5 << 28)`.
+
+### Programação de I/O
