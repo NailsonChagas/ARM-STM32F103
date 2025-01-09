@@ -34,7 +34,11 @@ Este repositório tem como objetivo documentar meu processo de aprendizado nas d
 	4. [C para Sistemas Embarcados](#c-para-sistemas-embarcados)
 		1. [Tamanhos e Especificações dos Tipos de Dados](#tamanhos-e-especificações-dos-tipos-de-dados)
 		2. [Operações Bitwise em C](#operações-bitwise-em-c)
-    5. [Programação de I/O](#programação-de-io)
+    5. [Pinos I/O](#pinos-io)
+    6. [GPIO](#gpio)
+        1. [Clock para periféricos](#clock-para-periféricos)
+        2. [Registradores CRL e CRH](#registradores-crl-e-crh)
+        3. [Registradores ODR e IDR](#registradores-odr-e-idr)
 
 ## Conhecimentos gerais
 
@@ -419,4 +423,135 @@ A linguagem C não especifica o tamanho dos tipos de dados; depende do compilado
             - Primeiro, limpamos os bits 30-28 com `register & ~(7 << 28)`.
             - Em seguida, configuramos os bits 30-28 para `5` com `| (5 << 28)`.
 
-### Programação de I/O
+### Pinos I/O
+O STM32F103C8 conta com as portas `A`, `B`, `C` e `D`. No entanto, no modelo **Blue Pill**, apenas os pinos das portas `PA0 ~ PA15`, `PB0 ~ PB15` e `PC13 ~ PC15` estão fisicamente acessíveis. A porta `D` é utilizada internamente, com os pinos `PD0` (OSC_IN) e `PD1` (OSC_OUT) conectados ao circuito do cristal oscilador para o clock externo, tornando-os inacessíveis para funções I/O.
+
+Nos microcontroladores, os pinos I/O são utilizados para interagir com diversos periféricos. Existem dois tipos principais de pinos I/O:
+
+- **General Purpose I/O (GPIO):** pinos de entrada e saída de sinais digitais, que servem para interagir com dispositivos como LEDs, interruptores, LCDs, teclados (keypads), entre outros.
+
+- **Special Purpose I/O:** pinos de entrada e saída com funções específicas, como ADC (Conversor Analógico para Digital), timers, UART, entre outros.
+
+### GPIO
+Cada porta possui 7 registradores: CRL (Configuration Register
+Low), CRH (Configuration Register High), IDR (Input Data Register), ODR (Output Data Register), BSSR (Bit
+Set Reset Register), BRR (Bit Reset Register), e LCKR (Lock Register)
+
+- **Porta A:** `0x40010800` ~ `0x40010BFF`
+    - **CRL**: `0x40010800` ~ `0x40010803`
+    - **CRH**: `0x40010804` ~ `0x40010807`
+    - **IDR**: `0x40010808` ~ `0x4001080B`
+    - **ODR**: `0x4001080C` ~ `0x4001080F`
+    - **BSRR**: `0x40010810` ~ `0x40010813`
+    - **BRR**: `0x40010814` ~ `0x40010817`
+    - **LCKR**: `0x40010818` ~ `0x4001081B`
+
+- **Porta B:** `0x40010C00` ~ `0x40010FFF`
+    - **CRL**: `0x40010C00` ~ `0x40010C03`
+    - **CRH**: `0x40010C04` ~ `0x40010C07`
+    - **IDR**: `0x40010C08` ~ `0x40010C0B`
+    - **ODR**: `0x40010C0C` ~ `0x40010C0F`
+    - **BSRR**: `0x40010C10` ~ `0x40010C13`
+    - **BRR**: `0x40010C14` ~ `0x40010C17`
+    - **LCKR**: `0x40010C18` ~ `0x40010C1B`
+
+- **Porta C:** `0x40011000` ~ `0x400113FF`
+    - **CRL**: `0x40011000` ~ `0x40011003`
+    - **CRH**: `0x40011004` ~ `0x40011007`
+    - **IDR**: `0x40011008` ~ `0x4001100B`
+    - **ODR**: `0x4001100C` ~ `0x4001100F`
+    - **BSRR**: `0x40011010` ~ `0x40011013`
+    - **BRR**: `0x40011014` ~ `0x40011017`
+    - **LCKR**: `0x40011018` ~ `0x4001101B`
+
+- **Porta D:** `0x40011400` ~ `0x400117FF`
+    - **CRL**: `0x40011400` ~ `0x40011403`
+    - **CRH**: `0x40011404` ~ `0x40011407`
+    - **IDR**: `0x40011408` ~ `0x4001140B`
+    - **ODR**: `0x4001140C` ~ `0x4001140F`
+    - **BSRR**: `0x40011410` ~ `0x40011413`
+    - **BRR**: `0x40011414` ~ `0x40011417`
+    - **LCKR**: `0x40011418` ~ `0x4001141B`
+
+#### Clock para periféricos
+Para usar algum periférico conectado a alguma porta é preciso habilitar o clock para aquela porta. Caso uma porta não esteja sendo usada o clock pode ser desabilitado para economizar energia. Os regitradores que configuram o clock dos periféricos são:
+- APB1ENR
+- APB2ENR
+- AHBENR
+
+Os `bits` que habilitam o clock nas portas `GPIO` estão localizados no registrador `APB2ENR`:
+
+| BIT |             Descrição             | 
+|:---:|:---------------------------------:| 
+|  2  | I/O port A clock enable (IOPA EN) |
+|  3  | I/O port B clock enable (IOPB EN) |
+|  4  | I/O port C clock enable (IOPC EN) | 
+|  5  | I/O port D clock enable (IOPD EN) |
+|  6  | I/O port E clock enable (IOPE EN) |
+|  7  | I/O port F clock enable (IOPF EN) |
+|  8  | I/O port G clock enable (IOPG EN) |
+
+- **Exemplo 1:** Ativar o clock da porta `B`.
+```c
+    RCC->APB2ENR |= (1 << 3); 
+```
+
+- **Exemplo 2:** Ativar o clock para todas as portas.
+```c
+    RCC->APB2ENR |= 0x1FC; // 1FC = 0000 0001 1111 1100
+```
+
+Caso as portas não estejam sendo usadas como GPIO é preciso ativar outros bits dos registradores mencionados (Ver: livro pg 207).
+
+#### Registradores CRL e CRH
+Usados para configurar os pinos da porta. O `CRL` (Control Register Low) configura os pinos de 0 a 7. O `CRH` (Control Register High) é similar ao `CRL`, mas aplica-se aos pinos de 8 a 15 de uma porta de I/O. Cada um desses registradores usa `4bits` para configurar cada um dos pinos de uma porta, sendo `2bits` reservados para configurar o `MODEn` e `2bits` para configurar o `CNFn` (configuration).
+
+Ex: Registrador CRH
+|         | CNF15 | MODE15 | CNF14 | MODE14| ... | CNF09 | MODE09 | CNF08 | MODE08 |
+|:-------:|:-----:|:------:|:-----:|:-----:|:---:|:-----:|:------:|:-----:|:------:|
+| **BIT's** | 31 30 | 29 28  | 27 26 | 25 24 | ... | 07 06 | 05 04  | 03 02 |  01 00 |
+
+- Configurações de `MODE`:   
+    | bits | Direção | Max Speed | 
+    |:----:|:-------:|:---------:|
+    |  00  |  Input  |    --     |
+    |  01  | Output  |  10 MHz   |
+    |  10  | Output  |  02 MHz   |
+    |  11  | Output  |  50 MHz   |
+
+- Configurações de `CNF`:   
+    - Se `MODE` for `Input`:
+        | bits | Configuração                   | Descrição                                                                                    |
+        |:----:|:------------------------------:|:--------------------------------------------------------------------------------------------:|
+        | 00   | Modo Analógico                 | Selecione este modo quando usar um pino como entrada de ADC.                                 |
+        | 01   | Entrada Flutuante              | Neste modo, o pino está em alta impedância.                                                  |
+        | 10   | Entrada com resistor pull-up/pull-down | O valor de ODR escolhe se o resistor pull-up ou pull-down é ativado. (1: pull-up, 0: pull-down)   |
+        | 11   | Reservado                      | (Não especificado)                                                                           |
+    
+    - Se `MODE` for `Output`:
+        | bits | Configuração                         | 
+        |:----:|:------------------------------------:|
+        | 00   | General purpose output push-pull     | 
+        | 01   | General purpose output Open-drain    | 
+        | 10   | Alternate function output push-pull  | 
+        | 11   | Alternate function output Open-drain | 
+
+        - **push-pull:** o pino de saída pode ser tanto alta (high) quanto baixa (low). Isso significa que o pino pode fornecer tensão tanto para um nível lógico alto quanto para um nível lógico baixo.
+
+        - **open-drain:** pino de saída não pode gerar um nível lógico alto diretamente. Ele pode apenas ser baixa (low) ou "aberto" (high impedance), ou seja, o pino pode ser conectado diretamente ao GND, mas quando estiver em "estado alto", ele está em alta impedância e deixa um resistor externo (geralmente um pull-up) determinar o nível lógico.
+
+#### Registradores ODR e IDR
+Cada porta de I/O em um microcontrolador possui dois registradores: o `ODR` (Output Data Register) e o `IDR` (Input Data Register). Ambos os registradores são de 16 bits, e cada bit corresponde ao estado de um pino individual da porta.
+
+- **ODR (Output Data Register)**:
+  - Este registrador contém os dados de saída para os pinos configurados como **saída** (`MODE = Output`).
+
+  - Quando um pino é configurado como saída, o valor de cada bit no `ODR` define o nível lógico do pino: **1** para nível lógico **alto (High)** e **0** para nível lógico **baixo (Low)**.
+  
+- **IDR (Input Data Register)**:
+  - Este registrador contém os dados de entrada para os pinos configurados como **entrada** (`MODE = Input`).
+
+  - Quando um pino está configurado como entrada, o valor de cada bit no `IDR` reflete o estado do pino: **1** para nível lógico **alto (High)** e **0** para nível lógico **baixo (Low)**.
+
+  - No caso dos pinos configurados como **entrada** (`MODE = Input`), o `ODR` não altera o valor do pino diretamente, mas pode ser usado para indicar se o pino está com um resistor **pull-up** (bit ODR é 1) ou **pull-down** ativado (bit ODR é 0).
+
