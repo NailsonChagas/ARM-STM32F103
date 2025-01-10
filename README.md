@@ -559,7 +559,7 @@ Cada porta de I/O em um microcontrolador possui dois registradores: o `ODR` (Out
   - No caso dos pinos configurados como **entrada** (`MODE = Input`), o `ODR` não altera o valor do pino diretamente, mas pode ser usado para indicar se o pino está com um resistor **pull-up** (bit ODR é 1) ou **pull-down** ativado (bit ODR é 0).
 
 #### Registradores BSRR e BRR
-Cada porta possui um registrador BSRR (Bit Set/Reset Register) e um BRR (Bit Reset Register), que são registros usados para alterar o estado de pinos individuais de um microcontrolador sem afetar os outros.
+Cada porta possui um registrador `BSRR` (Bit Set/Reset Register) e um `BRR` (Bit Reset Register), que são registros usados para alterar o estado de pinos individuais de um microcontrolador sem afetar os outros.
 
 - **BRR (Bit Reset Register):**
     - Define os pinos como nivel lógico `low`
@@ -572,7 +572,7 @@ Cada porta possui um registrador BSRR (Bit Set/Reset Register) e um BRR (Bit Res
         ```
 
 - **BSRR (Bit Set/Reset Register):**
-    - Pode definir pinos como HIGH (1) ou LOW (0) dependendo do bit.
+    - Pode definir pinos como `high` (1) ou `low` (0) dependendo do bit.
         - Bits 0 a 15 (BSn): Escrever 1 define o pino correspondente como `high`.
         - Bits 16 a 31 (BRn): Escrever 1 define o pino correspondente como `low`.
     - Exemplos:
