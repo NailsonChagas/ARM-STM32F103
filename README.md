@@ -330,6 +330,10 @@ Como estou usando o sistema Ubuntu 22.04 (Linux), não utilizarei a mesma IDE me
 	
 	Obs: Projeto `0_test` é um projeto vazio em que foi seguido acima
 
+- **Debug no STM32CubeIDE usando o STlink**:  
+    1. `sudo apt-get install libncurses5`
+    2. Assistir este vídeo: https://www.youtube.com/watch?v=jbVgIK9Jlgk
+
 ### C para Sistemas Embarcados
 Obs: Os arquivos `C` com exemplos de uso e os arquivos `Assembly` resultantes, comentados, estão na pasta `C_para_Sistemas_Embarcados`
 
@@ -475,6 +479,8 @@ Set Reset Register), BRR (Bit Reset Register), e LCKR (Lock Register)
     - **BSRR**: `0x40011410` ~ `0x40011413`
     - **BRR**: `0x40011414` ~ `0x40011417`
     - **LCKR**: `0x40011418` ~ `0x4001141B`
+
+**Obs:** Exemplos de uso de GPIO's estam na pasta `./STM32CubeIDE_Workspace/GPIO`
 
 #### Clock para periféricos
 Para usar algum periférico conectado a alguma porta é preciso habilitar o clock para aquela porta. Caso uma porta não esteja sendo usada o clock pode ser desabilitado para economizar energia. Os regitradores que configuram o clock dos periféricos são:
