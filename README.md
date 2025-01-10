@@ -553,16 +553,18 @@ Ex: Registrador CRH
 Cada porta de I/O em um microcontrolador possui dois registradores: o `ODR` (Output Data Register) e o `IDR` (Input Data Register). Ambos os registradores são de 16 bits, e cada bit corresponde ao estado de um pino individual da porta.
 
 - **ODR (Output Data Register)**:
-  - Este registrador contém os dados de saída para os pinos configurados como **saída** (`MODE = Output`).
+    - Este registrador contém os dados de saída para os pinos configurados como **saída** (`MODE = Output`).
 
-  - Quando um pino é configurado como saída, o valor de cada bit no `ODR` define o nível lógico do pino: **1** para nível lógico **alto (High)** e **0** para nível lógico **baixo (Low)**.
+    - Quando um pino é configurado como saída, o valor de cada bit no `ODR` define o nível lógico do pino: **1** para nível lógico **alto (High)** e **0** para nível lógico **baixo (Low)**.
+
+    - No caso dos pinos configurados como **entrada** (`MODE = Input`), o `ODR` não altera o valor do pino diretamente, mas pode ser usado para indicar se o pino está com um resistor **pull-up** (bit ODR é 1) ou **pull-down** ativado (bit ODR é 0).
   
 - **IDR (Input Data Register)**:
-  - Este registrador contém os dados de entrada para os pinos configurados como **entrada** (`MODE = Input`).
+    - Este registrador contém os dados de entrada para os pinos configurados como **entrada** (`MODE = Input`).
 
-  - Quando um pino está configurado como entrada, o valor de cada bit no `IDR` reflete o estado do pino: **1** para nível lógico **alto (High)** e **0** para nível lógico **baixo (Low)**.
+    - Quando um pino está configurado como entrada, o valor de cada bit no `IDR` reflete o estado do pino: **1** para nível lógico **alto (High)** e **0** para nível lógico **baixo (Low)**.
 
-  - No caso dos pinos configurados como **entrada** (`MODE = Input`), o `ODR` não altera o valor do pino diretamente, mas pode ser usado para indicar se o pino está com um resistor **pull-up** (bit ODR é 1) ou **pull-down** ativado (bit ODR é 0).
+
 
 #### Registradores BSRR e BRR
 Cada porta possui um registrador `BSRR` (Bit Set/Reset Register) e um `BRR` (Bit Reset Register), que são registros usados para alterar o estado de pinos individuais de um microcontrolador sem afetar os outros.
