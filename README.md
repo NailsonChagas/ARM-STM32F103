@@ -39,6 +39,7 @@ Este repositório tem como objetivo documentar meu processo de aprendizado nas d
         1. [Clock para periféricos](#clock-para-periféricos)
         2. [Registradores CRL e CRH](#registradores-crl-e-crh)
         3. [Registradores ODR e IDR](#registradores-odr-e-idr)
+        4. [Registradores BSRR e BRR](#registradores-bsrr-e-brr)
 
 ## Conhecimentos gerais
 
@@ -477,9 +478,9 @@ Set Reset Register), BRR (Bit Reset Register), e LCKR (Lock Register)
 
 #### Clock para periféricos
 Para usar algum periférico conectado a alguma porta é preciso habilitar o clock para aquela porta. Caso uma porta não esteja sendo usada o clock pode ser desabilitado para economizar energia. Os regitradores que configuram o clock dos periféricos são:
-- APB1ENR
-- APB2ENR
-- AHBENR
+- `APB1ENR`
+- `APB2ENR`
+- `AHBENR`
 
 Os `bits` que habilitam o clock nas portas `GPIO` estão localizados no registrador `APB2ENR`:
 
@@ -556,4 +557,27 @@ Cada porta de I/O em um microcontrolador possui dois registradores: o `ODR` (Out
   - Quando um pino está configurado como entrada, o valor de cada bit no `IDR` reflete o estado do pino: **1** para nível lógico **alto (High)** e **0** para nível lógico **baixo (Low)**.
 
   - No caso dos pinos configurados como **entrada** (`MODE = Input`), o `ODR` não altera o valor do pino diretamente, mas pode ser usado para indicar se o pino está com um resistor **pull-up** (bit ODR é 1) ou **pull-down** ativado (bit ODR é 0).
+
+#### Registradores BSRR e BRR
+Cada porta possui um registrador BSRR (Bit Set/Reset Register) e um BRR (Bit Reset Register), que são registros usados para alterar o estado de pinos individuais de um microcontrolador sem afetar os outros.
+
+- **BRR (Bit Reset Register):**
+    - Define os pinos como nivel lógico `low`
+    - Cada pino possui um `bit` correspondente no `BRR`
+    - 1 em um bit do BRR faz com que o pino correspondente seja definido como `low` 
+    - Exemplos:
+        ```c
+            GPIOB->BRR = 1 << 5; // Define PB5 como LOW
+            GPIOA->BRR = (1 << 3) | (1 << 5); // Define PA3 e PA5 como LOW
+        ```
+
+- **BSRR (Bit Set/Reset Register):**
+    - Pode definir pinos como HIGH (1) ou LOW (0) dependendo do bit.
+        - Bits 0 a 15 (BSn): Escrever 1 define o pino correspondente como `high`.
+        - Bits 16 a 31 (BRn): Escrever 1 define o pino correspondente como `low`.
+    - Exemplos:
+        ```c
+            GPIOC->BSRR = (1 << 5); // Define PC5 como HIGH
+            GPIOB->BSRR = (1 << 5) | (1 << 19); // Define PB5 como HIGH e PB3 como LOW
+        ```
 
