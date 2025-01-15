@@ -80,7 +80,8 @@ int main(void)
 			0x58, 0x5E, 0x79, 0x71 // 1011000, 1011110, 1111001, 1110001
 	};
 
-	uint8_t i = 0;
+	uint8_t i = 0, changed = 0;
+
 	while(1){
 //		for(uint8_t i = 0; i < 16; i++){
 //			GPIOA->ODR |= hex_lookup[i];
@@ -88,7 +89,7 @@ int main(void)
 //			GPIOA->ODR &= 0xFF80; // zerar os bits 6 a 0: 1111 | 1111 | 1000 0000
 //		}
 		GPIOA->ODR |= hex_lookup[i];
-		delay_ms(100);
+		delay_ms(15);
 		GPIOA->ODR &= 0xFF80; // zerar os bits 6 a 0: 1111111110000000
 
 		if(i < 16){
@@ -104,7 +105,7 @@ uint8_t check_button(){
 	// checando se o botão no pino 7 esta pressionado
 	if((GPIOA->IDR & (1 << 7)) == 0){ // == 0 pois esta usando pull up
 		// delay simples para debouncing (ideal seria usar clock e interrupções)
-		delay_ms(1);
+		delay_ms(10);
 
 		// checa valor do bit 7 novamente para garantir que o botão esta pressioando
 		if((GPIOA->IDR & (1 << 7)) == 0){
