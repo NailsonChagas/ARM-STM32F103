@@ -149,9 +149,11 @@ ser utilizados para qualquer propósito definido pelo programador ou compilador.
 O Stack Pointer é um registrador especializado que aponta para o topo da pilha de memória. 
 A pilha é uma estrutura de dados usada para armazenar informações temporárias, como valores de variáveis locais, 
 endereços de retorno e parâmetros de função.
+A stack fica na RAM, sendo comumente implementada em memória de melhor desempenho.
 
 #### Link Register (LR)
 O Link Register é um registrador que armazena o endereço de retorno de uma sub-rotina ou função chamada.
+Se uma função chama uma função é preciso usar a stack pois o LR só permite armazenar um registrador.
 
 #### Program Counter (PC)
 O Program Counter é um registrador que contém o endereço da próxima instrução a ser executada pela CPU.
