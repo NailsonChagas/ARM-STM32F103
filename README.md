@@ -183,12 +183,12 @@ Na arquitetura ARM, existe apenas um espaço de memória que pode ir até 4 Giga
   O **Heap** é outra região de memória SRAM usada para alocação dinâmica de memória em tempo de execução. Diferentemente do stack, ele cresce de endereços baixos para altos. A alocação e liberação de memória no heap são gerenciadas explicitamente pelo programador, geralmente por meio de chamadas de funções como `malloc` e `free` (em linguagens de alto nível) ou manipulação direta de ponteiros. O uso do heap em sistemas embarcados deve ser cuidadoso devido aos recursos limitados.  
 
 #### Segmentos de Memória
-**ENDEREÇO 0**
+**ENDEREÇO 0**         
 1. **.data**: armazena variáveis globais inicializadas (tamanho fixo).
 2. **.bss**: armazena variáveis globais não inicializadas (tamanho fixo).
 3. **Heap**: utilizado para alocação dinâmica de memória, expandindo-se em direção descendente.
 4. **Memória livre**: região entre o Heap e a Stack, utilizada como área de expansão.
-5. **Stack**: armazena variáveis locais e registros de chamadas de função, expandindo-se em direção ascendente.
+5. **Stack**: armazena variáveis locais e registros de chamadas de função, expandindo-se em direção ascendente.            
 **FINAL DA MEMÓRIA**
 
 - **Stack** e **Heap** crescem em direções opostas.
